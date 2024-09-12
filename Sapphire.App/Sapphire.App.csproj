@@ -64,8 +64,12 @@
     <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TodoRowEdit.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\Todos.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TrackEffort.razor" />
+    <_ContentIncludedByDefault Remove="Components\Components\FluentUnstyledSortableList\FluentUnstyledSortableList.razor" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\Components\" />
   </ItemGroup>
 </Project>
