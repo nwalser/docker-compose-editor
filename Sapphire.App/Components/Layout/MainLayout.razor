@@ -1,4 +1,6 @@
-﻿@using Sapphire.App.Extensions
+﻿@using System.Reactive.Subjects
+@using Sapphire.App.Extensions
+@using Sapphire.DockerCompose.Schema
 @inherits LayoutComponentBase
 
 <MudDialogProvider/>
@@ -6,19 +8,36 @@
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Theme.Default" DefaultScrollbar="true"/>
 
 <CascadingValue TValue="BrowserWindow?" IsFixed="true" Value="WindowManager.GetCurrent()">
-    <ErrorBoundary>
-        <ChildContent>
-            @Body
-        </ChildContent>
-        <ErrorContent>
-            <p>There was an error</p>
-        </ErrorContent>
-    </ErrorBoundary>
+    @if (DataService.Stack is not null)
+    {
+        <CascadingValue TValue="BehaviorSubject<DockerStack>" IsFixed="true" Value="DataService.Stack">
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent>
+                    <p>There was an error</p>
+                </ErrorContent>
+            </ErrorBoundary>
+        </CascadingValue>
+    }
+    else
+    {
+        <ErrorBoundary>
+            <ChildContent>
+                <List />
+            </ChildContent>
+            <ErrorContent>
+                <p>There was an error</p>
+            </ErrorContent>
+        </ErrorBoundary>
+    }
 </CascadingValue>
 
 @code{
     [Inject] public required WindowManager WindowManager { get; set; }
-
+    [Inject] public required DataService DataService { get; set; }
+    
     private bool _isDarkMode = true;
     private MudThemeProvider _mudThemeProvider = null!;
     

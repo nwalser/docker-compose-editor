@@ -1,0 +1,64 @@
+﻿<DefaultWindowLayout PageTitle="File">
+    <MudContainer Class="my-8" MaxWidth="MaxWidth.Large">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-3">
+            <MudText Typo="Typo.h3">Recent Workspaces</MudText>
+
+            <MudStack Row="true" Spacing="1">
+                <MudButton OnClick="() => Open()" Variant="Variant.Outlined" Size="Size.Small">Open Docker Compose File</MudButton>
+                <MudButton OnClick="() => New()" Variant="Variant.Outlined" Size="Size.Small">New Docker Compose File</MudButton>
+            </MudStack>
+        </MudStack>
+    </MudContainer>
+</DefaultWindowLayout>
+
+@code {
+    [Inject] public required DataService DataService { get; set; }
+    [Inject] public required WindowManager WindowManager { get; set; }
+    [Inject] public required Dialog Dialog { get; set; }
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    
+    private bool _loading = false;
+
+    private void New()
+    {
+        DataService.New();
+    }
+
+    private async Task Open()
+    {
+        var options = new OpenDialogOptions
+        {
+            Properties = [OpenDialogProperty.openFile], 
+            Filters = [
+                new FileFilter
+                {
+                    Name = "Docker Compose", 
+                    Extensions = ["yml", "yaml"]
+                }
+            ]
+        };
+        
+        var window = WindowManager.BrowserWindows.Single();
+        var selection = await Dialog.ShowOpenDialogAsync(window, options);
+        var path = selection.SingleOrDefault();
+
+        if (path is null)
+            return;
+
+        try
+        {
+            _loading = true;
+            await InvokeAsync(StateHasChanged);
+            DataService.Open(path);
+            NavigationManager.NavigateTo("/", true);
+        }
+        catch (Exception ex)
+        {
+            Dialog.ShowErrorBox("An error occured", ex.Message);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

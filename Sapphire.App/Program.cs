@@ -18,6 +18,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 
 builder.Services.AddSingleton(new TimeZoneService());
+builder.Services.AddSingleton(new DataService());
 
 var app = builder.Build();
 

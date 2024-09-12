@@ -1,0 +1,11 @@
+﻿@page "/"
+@using System.Reactive.Subjects
+@using Sapphire.DockerCompose.Schema
+
+<DefaultWindowLayout PageTitle="File">
+    <MudText Typo="Typo.h1">Services: @Stack.Value.Services?.Count</MudText>
+</DefaultWindowLayout>
+
+@code {
+    [CascadingParameter] public required BehaviorSubject<DockerStack> Stack { get; set; }
+}
