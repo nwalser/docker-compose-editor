@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Blazor.Heroicons" Version="2.1.5" />
+    <PackageReference Include="DeviceId" Version="6.7.0" />
+    <PackageReference Include="ElectronNET.API" Version="23.6.2" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" Version="4.6.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.*-* " />
+    <PackageReference Include="MudBlazor" Version="7.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="electron.manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icon.afdesign">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-100-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-100.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-300-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-300.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-400-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-400.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-500-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-500.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-700-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-700.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-900-Italic.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\roboto\Roboto-900.ttf" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Calendar\Calendar.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Calendar\LeaveDaysView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Calendar\OfficeDaysView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Calendar\WorkWeeksView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Calendar\WorkWeekView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Settings\Settings.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Settings\WorkerActions.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Settings\WorkerGeneralSettings.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\WorkerMenu.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\Workers.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Worker\WorkersMenu.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Settings\Settings.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\ProjectMenu.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Projects.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\ProjectsMenu.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Settings\ProjectActions.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Settings\ProjectGeneralSettings.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Settings\ProjectTags.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Settings\Settings.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Team\DailyAllocationRuleView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Team\MonthView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Team\Team.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Team\WeeklyAllocationRuleView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\AllocationsGraphic.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\HourProgress.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TodoGroup.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TodoRow.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TodoRowEdit.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\Todos.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TrackEffort.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+</Project>

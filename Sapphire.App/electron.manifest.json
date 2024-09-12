@@ -1,0 +1,36 @@
+{
+  "executable": "Sapphire.App",
+  "splashscreen": {
+    "imageFile": ""
+  },
+  "name": "Sapphire",
+  "author": "",
+  "singleInstance": false,
+  "environment": "Production",
+  "build": {
+    "appId": "com.Sapphire.App.app",
+    "productName": "Sapphire",
+    "copyright": "Copyright © 2020",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "directories": {
+      "output": "../../../bin/Desktop",
+      "buildResources": "C:\\Users\\Nathaniel Walser\\Documents\\Respositories\\Moonstone\\Sapphire.App\\wwwroot\\images" 
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}

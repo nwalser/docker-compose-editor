@@ -1,0 +1,41 @@
+﻿@using Sapphire.App.Extensions
+@inherits LayoutComponentBase
+
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Theme.Default" DefaultScrollbar="true"/>
+
+<CascadingValue TValue="BrowserWindow?" IsFixed="true" Value="WindowManager.GetCurrent()">
+    <ErrorBoundary>
+        <ChildContent>
+            @Body
+        </ChildContent>
+        <ErrorContent>
+            <p>There was an error</p>
+        </ErrorContent>
+    </ErrorBoundary>
+</CascadingValue>
+
+@code{
+    [Inject] public required WindowManager WindowManager { get; set; }
+
+    private bool _isDarkMode = true;
+    private MudThemeProvider _mudThemeProvider = null!;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
+    }
+    
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}
