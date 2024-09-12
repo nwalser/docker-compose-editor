@@ -71,9 +71,6 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Components\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Sapphire.DockerCompose.Schema\Sapphire.DockerCompose.Schema.csproj" />
   </ItemGroup>
 </Project>

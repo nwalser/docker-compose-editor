@@ -1,9 +1,14 @@
 ﻿@page "/"
-@using System.Reactive.Subjects
-@using Sapphire.DockerCompose.Schema
 
 <DefaultWindowLayout PageTitle="File">
     <MudText Typo="Typo.h1">Services: @Stack.Value.Services?.Count</MudText>
+    
+    <MudText Typo="Typo.h1">Services</MudText>
+    <RowStub />
+    
+    <MudText Typo="Typo.h1">Volumes</MudText>
+    <MudText Typo="Typo.h1">Configs</MudText>
+    <MudText Typo="Typo.h1">Secrets</MudText>
 </DefaultWindowLayout>
 
 @code {
