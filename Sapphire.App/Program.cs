@@ -2,7 +2,7 @@ using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.FluentUI.AspNetCore.Components;
 using MudBlazor.Services;
-using Sapphire.App.Components.Pages.File;
+using Sapphire.App.Components.Components;
 using Sapphire.App.Services;
 using App = Sapphire.App.Components.App;
 

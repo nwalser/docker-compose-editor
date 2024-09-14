@@ -1,0 +1,30 @@
+﻿@inherits ComEditorRefresh
+@page "/import/library"
+
+<WindowLayout PageTitle="@($"{State.Stack.Name} - Import from Library")">
+    <ToolbarRightContent>
+        <WindowControls/>
+    </ToolbarRightContent>
+    <RibbonLeftContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => Navigation.NavigateTo("/"))">Cancel</MudButton>
+        </MudStack>
+    </RibbonLeftContent>
+    <RibbonCenterContent>
+
+    </RibbonCenterContent>
+    <RibbonRightContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport">Import</MudButton>
+        </MudStack>
+    </RibbonRightContent>
+    <ChildContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            Import
+        </MudContainer>
+    </ChildContent>
+</WindowLayout>
+
+@code {
+    [Inject] public required NavigationManager Navigation { get; set; }
+}

@@ -1,4 +1,6 @@
-﻿namespace Sapphire.Data.Internal;
+﻿using Sapphire.Data.Yaml;
+
+namespace Sapphire.Data.Internal;
 
 public class Service
 {
@@ -19,4 +21,47 @@ public class Service
     public List<string> Labels { get; set; } = [];
     public List<string> Annotations { get; set; } = [];
     public List<string> Networks { get; set; } = [];
+
+
+    public static Service FromYaml(KeyValuePair<string, YamlService> entry)
+    {
+        var value = entry.Value;
+        
+        return new Service()
+        {
+            Key = Guid.NewGuid(),
+            Id = entry.Key,
+            ContainerName = value.ContainerName,
+            Image = value.Image,
+            Hostname = value.Hostname,
+            Command = value.Command,
+            EnvFile = value.EnvFile,
+            Annotations = value.Annotations,
+            Environment = value.Environment,
+            Labels = value.Labels,
+            Networks = value.Networks,
+            Ports = value.Ports,
+            Volumes = value.Volumes,
+        };
+    }
+
+    public KeyValuePair<string, YamlService> ToYaml()
+    {
+        var service = new YamlService()
+        {
+            ContainerName = ContainerName,
+            Image = Image,
+            Hostname = Hostname,
+            Command = Command,
+            EnvFile = EnvFile,
+            Annotations = Annotations,
+            Environment = Environment,
+            Labels = Labels,
+            Networks = Networks,
+            Ports = Ports,
+            Volumes = Volumes,
+        };
+
+        return new KeyValuePair<string, YamlService>(Id, service);
+    }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Reactive.Subjects;
 using System.Text.Json;
+using Sapphire.App.Data;
 using Sapphire.Data.Internal;
 
-namespace Sapphire.App.Components.Pages.File;
+namespace Sapphire.App.Components.Components;
 
 public class EditorState
 {

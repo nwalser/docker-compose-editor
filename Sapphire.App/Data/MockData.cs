@@ -1,8 +1,6 @@
-﻿using Sapphire.Data;
-using Sapphire.Data.Internal;
-using Sapphire.Data.Yaml;
+﻿using Sapphire.Data.Internal;
 
-namespace Sapphire.App.Components.Pages.File;
+namespace Sapphire.App.Data;
 
 public static class MockData
 {

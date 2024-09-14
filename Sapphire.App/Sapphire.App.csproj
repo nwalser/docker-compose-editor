@@ -66,6 +66,8 @@
     <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\Todos.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\Project\Todos\TrackEffort.razor" />
     <_ContentIncludedByDefault Remove="Components\Components\FluentUnstyledSortableList\FluentUnstyledSortableList.razor" />
+    <_ContentIncludedByDefault Remove="Components\Components\Dialogs\ComImportFromDockerCompose.razor" />
+    <_ContentIncludedByDefault Remove="Components\Components\Dialogs\ComImportFromLibrary.razor" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />

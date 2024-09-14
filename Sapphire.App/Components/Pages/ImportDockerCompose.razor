@@ -1,0 +1,71 @@
+﻿@using Sapphire.Data.Yaml
+@inherits ComEditorRefresh
+@page "/import/docker-compose"
+
+<WindowLayout PageTitle="@($"{State.Stack.Name} - Import from Docker Compose")">
+    <ToolbarRightContent>
+        <WindowControls/>
+    </ToolbarRightContent>
+    <RibbonLeftContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => Navigation.NavigateTo("/"))">Cancel</MudButton>
+        </MudStack>
+    </RibbonLeftContent>
+    <RibbonCenterContent>
+
+    </RibbonCenterContent>
+    <RibbonRightContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Disabled="Error is not null || YamlDockerStack is null" OnClick="Import">Import</MudButton>
+        </MudStack>
+    </RibbonRightContent>
+    <ChildContent>
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="h-full">
+            <MudStack>
+                <MudTextField T="string" @bind-Value="Yaml" ShrinkLabel="true" Label="Docker Compose File"
+                              @bind-Value:after="Convert" Variant="Variant.Outlined" Class="h-full"  Lines="18" Immediate="true"
+                              Error="Error is not null" ErrorText="@Error" />
+
+                <MudStack Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Row="true">
+                    <MudChip T="string" Size="Size.Medium" Variant="Variant.Outlined">@(YamlDockerStack?.Services?.Count ?? 0) Services</MudChip>
+                    <MudChip T="string" Size="Size.Medium" Variant="Variant.Outlined">@(YamlDockerStack?.Volumes?.Count ?? 0) Volumes</MudChip>
+                    <MudChip T="string" Size="Size.Medium" Variant="Variant.Outlined">@(YamlDockerStack?.Networks?.Count ?? 0) Networks</MudChip>
+                </MudStack>
+            </MudStack>
+        </MudContainer>
+    </ChildContent>
+</WindowLayout>
+
+@code {
+    [Inject] public required NavigationManager Navigation { get; set; }
+
+    private string Yaml { get; set; } = string.Empty;
+    private YamlDockerStack? YamlDockerStack { get; set; }
+    private string? Error { get; set; }
+    
+    private void Convert()
+    {
+        try
+        {
+            YamlDockerStack = YamlDockerStack.FromYaml(Yaml);
+            Error = null;
+        }
+        catch(Exception ex)
+        {
+            YamlDockerStack = null;
+            Error = ex.Message;
+        }
+    }
+
+    private void Import()
+    {
+        if (YamlDockerStack is null)
+            return;
+
+        var stackToMerge = DockerStack.FromYaml(YamlDockerStack);
+        State.Stack.Merge(stackToMerge);
+        State.PushHistory();
+        
+        Navigation.NavigateTo("/");
+    }
+}
