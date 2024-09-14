@@ -1,29 +1,22 @@
-﻿using Sapphire.DockerCompose.Schema;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
+﻿using System.Reactive.Subjects;
+using System.Text.Json;
+using Sapphire.Data.Internal;
 
 namespace Sapphire.App.Components.Pages.File;
 
 public class EditorState
 {
-    private static readonly ISerializer Serializer = new SerializerBuilder()
-        .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitEmptyCollections | DefaultValuesHandling.OmitDefaults)
-        .WithNamingConvention(UnderscoredNamingConvention.Instance)
-        .Build();
-    
-    private static readonly IDeserializer Deserializer = new DeserializerBuilder()
-        .WithNamingConvention(UnderscoredNamingConvention.Instance)
-        .Build();
-    
-    
+    public readonly Subject<EditorState> StateChanged = new();
+
     public Stack<string> Performed { get; } = new(5);
     public Stack<string> Recalled { get; } = new(5); // todo: implement with dropout stacks
-    public DockerStack Stack { get; set; } = new();
+
+    public DockerStack Stack { get; set; } = MockData.Stack;
 
 
     public EditorState()
     {
-        PushState();
+        PushHistory();
     }
     
 
@@ -34,7 +27,9 @@ public class EditorState
 
         var performed = Performed.Pop();
         Recalled.Push(performed);
-        Stack = Deserializer.Deserialize<DockerStack>(Performed.Peek());
+        Stack = JsonSerializer.Deserialize<DockerStack>(Performed.Peek()) ?? new DockerStack();
+        
+        StateChanged.OnNext(this);
     }
 
     public void Redo()
@@ -44,31 +39,17 @@ public class EditorState
 
         var recalled = Recalled.Pop();
         Performed.Push(recalled);
-        Stack = Deserializer.Deserialize<DockerStack>(recalled);
+        Stack = JsonSerializer.Deserialize<DockerStack>(recalled) ?? new DockerStack();
+        
+        StateChanged.OnNext(this);
     }
 
-    public void PushState()
+    public void PushHistory()
     {
-        var serialized = Serializer.Serialize(Stack);
+        var serialized = JsonSerializer.Serialize(Stack);
         Performed.Push(serialized);
         Recalled.Clear();
-    }
-    
-    public void Import(string yml)
-    {
-        var stack = Deserializer.Deserialize<DockerStack>(yml);
-
-        if (string.IsNullOrWhiteSpace(stack.Name)) stack.Name = stack.Name;
         
-        foreach (var service in stack.Services)
-            Stack.Services.Add(service.Key, service.Value);
-        
-        foreach (var volume in stack.Volumes)
-            Stack.Volumes.Add(volume.Key, volume.Value);
-        
-        foreach (var network in stack.Networks)
-            Stack.Networks.Add(network.Key, network.Value);
-        
-        PushState();
+        StateChanged.OnNext(this);
     }
 }

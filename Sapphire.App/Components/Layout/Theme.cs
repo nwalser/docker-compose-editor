@@ -58,7 +58,8 @@ public class Theme
             },
             H1 = new H1
             {
-                FontSize = "1.25rem"
+                FontSize = "0.9rem",
+                FontWeight = 300,
             },
             H2 = new H2
             {

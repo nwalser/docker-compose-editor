@@ -1,0 +1,79 @@
+﻿@inherits ComEditorRefresh
+
+<MudStack Spacing="2">
+    <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
+        <MudText Typo="Typo.h1">Services</MudText>
+
+        <MudStack Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Row="true">
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddService()" />
+        </MudStack>
+    </MudStack>
+
+    <MudStack Row="false" Spacing="1">
+        @foreach (var service in State.Stack.Services)
+        {
+            <MudPaper Outlined="true" Class="p-2" Elevation="0">
+                <MudStack Spacing="2">
+                    <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                        @if (service.Open)
+                        {
+                            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => ToggleServiceOpen(service)" Icon="@Icons.Material.Filled.KeyboardArrowDown" />
+                        }
+                        else
+                        {
+                            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => ToggleServiceOpen(service)" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
+                        }
+
+                        <MudText Typo="Typo.body2" Class="truncate basis-60">@service.Id</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-60">@service.Image</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-full">@service.ContainerName</MudText>
+                        <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteService(service)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                    </MudStack>
+
+                    @if (service.Open)
+                    {
+                        <MudStack>
+                            <MudTextField ShrinkLabel="true" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()" />
+                        </MudStack>
+                    }
+                </MudStack>
+            </MudPaper>
+        }
+        
+        @if (!State.Stack.Services.Any())
+        {
+            <div class="flex flex-row items-center gap-4 outline-[var(--mud-palette-lines-default)] outline-1 rounded-sm p-2 outline-dashed">
+                <MudText Typo="Typo.body2" Class="truncate basis-full text-center">No Services Defined</MudText>
+            </div>
+        }
+    </MudStack>
+</MudStack>
+
+
+@code {
+
+    private void ToggleServiceOpen(Service service)
+    {
+        service.Open = !service.Open;
+        State.PushHistory();
+    }
+
+    private void DeleteService(Service service)
+    {
+        State.Stack.Services.Remove(service);
+        State.PushHistory();
+    }
+
+    private void AddService()
+    {
+        State.Stack.Services.Add(new Service()
+        {
+            Id = "jolly_beans"
+        });
+
+        State.PushHistory();
+    }
+}

@@ -1,7 +1,12 @@
-﻿namespace Sapphire.DockerCompose.Schema;
+﻿namespace Sapphire.Data.Internal;
 
 public class Service
 {
+    public Guid Key { get; set; } = Guid.NewGuid();
+    public bool Open { get; set; } = false;
+    
+    public string Id { get; set; } = string.Empty;
+    
     public string ContainerName { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public string Command { get; set; } = string.Empty;

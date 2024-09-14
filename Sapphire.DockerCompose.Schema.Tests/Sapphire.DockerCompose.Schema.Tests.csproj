@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sapphire.DockerCompose.Schema\Sapphire.DockerCompose.Schema.csproj" />
+      <ProjectReference Include="..\Sapphire.Data\Sapphire.Data.csproj" />
     </ItemGroup>
 
 </Project>

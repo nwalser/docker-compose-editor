@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - App", "20 - App", "{EE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire.App", "Sapphire.App\Sapphire.App.csproj", "{6B70042F-2383-47A0-BA6B-26E2F8405C8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire.DockerCompose.Schema", "Sapphire.DockerCompose.Schema\Sapphire.DockerCompose.Schema.csproj", "{F2A44F20-298B-424D-A661-737936BB8FCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire.Data", "Sapphire.Data\Sapphire.Data.csproj", "{F2A44F20-298B-424D-A661-737936BB8FCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Data", "10 - Data", "{27D1C593-B3DF-45A3-92D6-FEE6E8EC74BF}"
 EndProject

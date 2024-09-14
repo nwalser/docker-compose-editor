@@ -1,3 +1,6 @@
+using Sapphire.Data;
+using Sapphire.Data.Yaml;
+
 namespace Sapphire.DockerCompose.Schema.Tests;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -22,7 +25,7 @@ public class ComposeParse
         foreach (var file in files)
         {
             var text = File.ReadAllText(file);
-            var stack = deserializer.Deserialize<DockerStack>(text);
+            var stack = deserializer.Deserialize<YamlDockerStack>(text);
         }
 
         Assert.True(files.Any());
