@@ -2,6 +2,7 @@ using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.FluentUI.AspNetCore.Components;
 using MudBlazor.Services;
+using Sapphire.App.Components.Pages.File;
 using Sapphire.App.Services;
 using App = Sapphire.App.Components.App;
 
@@ -18,7 +19,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 
 builder.Services.AddSingleton(new TimeZoneService());
-builder.Services.AddSingleton(new DataService());
+builder.Services.AddSingleton(new EditorState());
 
 var app = builder.Build();
 
@@ -43,8 +44,8 @@ if (!webRuntime)
     var options = new BrowserWindowOptions()
     {
         Title = "Sapphire",
-        MinHeight = 800,
-        MinWidth = 1400,
+        MinHeight = 600,
+        MinWidth = 1000,
         Frame = false
     };
     var window = await Electron.WindowManager.CreateWindowAsync(options);

@@ -1,58 +1,35 @@
 ﻿<PageTitle>@PageTitle</PageTitle>
 
 <div class="flex flex-col h-full overflow-hidden">
-    <div class="flex flex-row min-h-10 h-10 justify-between drag" style="border-bottom: 1px var(--mud-palette-lines-default) solid">
+    <div class="flex flex-row min-h-10 h-10 justify-between drag pl-4" style="border-bottom: 1px var(--mud-palette-lines-default) solid">
         <div class="flex flex-row items-center">
-            <MudText Typo="Typo.h2" Class="pl-4">@PageTitle</MudText>
+            <MudText Typo="Typo.h2">@PageTitle</MudText>
         </div>
         <div class="flex flex-row items-center">
             @ToolbarRightContent
         </div>
     </div>
+    
+    @if (RibbonLeftContent is not null || RibbonRightContent is not null || RibbonCenterContent is not null)
+    {
+        <div class="flex flex-row min-h-10 h-10 justify-between px-4" style="border-bottom: 1px var(--mud-palette-lines-default) solid">
+            <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center" Spacing="1">
+                @RibbonLeftContent
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="1">
+                @RibbonCenterContent
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="1">
+                @RibbonRightContent
+            </MudStack>
+        </div>
+    }
 
     <div class="flex flex-row flex-grow overflow-hidden">
-        @if (FirstMenu is not null)
-        {
-            <div class="min-w-10 w-10 flex flex-col overflow-hidden p-1 h-full" style="border-right: 1px var(--mud-palette-lines-default) solid">
-                @FirstMenu
-            </div>
-        }
-
-        @if (SecondMenu is not null)
-        {
-            <div class="min-w-72 w-72 flex flex-col overflow-hidden h-full" style="border-right: 1px var(--mud-palette-lines-default) solid">
-                @SecondMenu
-            </div>
-        }
-
-        @if (ThirdMenu is not null)
-        {
-            <div class="min-w-10 w-10 flex flex-col overflow-hidden p-1 h-full" style="border-right: 1px var(--mud-palette-lines-default) solid">
-                @ThirdMenu
-            </div>
-        }
-
-        <main class="flex flex-col flex-grow overflow-x-hidden overflow-y-scroll">
-            @if (RibbonLeftContent is not null || RibbonRightContent is not null || RibbonCenterContent is not null)
-            {
-                <div class="flex flex-row min-h-10 h-10 justify-between" style="border-bottom: 1px var(--mud-palette-lines-default) solid">
-                    <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center" Spacing="1" Class="mx-3">
-                        @RibbonLeftContent
-                    </MudStack>
-                    <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="1" Class="mx-3">
-                        @RibbonCenterContent
-                    </MudStack>
-                    <MudStack Row="true" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="1" Class="mx-3">
-                        @RibbonRightContent
-                    </MudStack>
-                </div>
-            }
-            
+        <main class="flex flex-col flex-grow overflow-y-scroll overflow-x-hidden px-4 py-6">
             @ChildContent
         </main>
     </div>
-    
-
 </div>
 
 

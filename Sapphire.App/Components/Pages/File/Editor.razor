@@ -1,0 +1,82 @@
+﻿@page "/"
+
+<WindowLayout PageTitle="Docker Compose Editor">
+    <ToolbarRightContent>
+        <WindowControls/>
+    </ToolbarRightContent>
+    <RibbonLeftContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Undo" OnClick="() => Data.Undo()" />
+            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Redo" OnClick="() => Data.Redo()" />
+        </MudStack>
+    </RibbonLeftContent>
+    <RibbonCenterContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.FileOpen">Add from Docker Compose File</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Terminal">Add from Command</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Wallpaper">Add from Template</MudButton>
+        </MudStack>
+    </RibbonCenterContent>
+    <RibbonRightContent>
+        <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport">Export</MudButton>
+        </MudStack>
+    </RibbonRightContent>
+    <ChildContent>
+        <div class="flex flex-row gap-4">
+            <div style="flex: 1 1 0;">
+                <div class="">
+                    <MudTextField T="string" Label="Name" ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="Data.Stack.Name" @bind-Value:after="Data.PushState" Variant="Variant.Outlined"/>
+                </div>
+
+                <div class="mt-4">
+                    <MudText Typo="Typo.h1">Services</MudText>
+                    @foreach (var service in Data.Stack.Services)
+                    {
+                        <RowStub/>
+                    }
+                </div>
+
+                <div class="mt-4">
+                    <MudText Typo="Typo.h1">Volumes</MudText>
+                    @foreach (var volume in Data.Stack.Volumes)
+                    {
+                        <RowStub/>
+                    }
+                </div>
+
+                <div class="mt-4">
+                    <MudText Typo="Typo.h1">Networks</MudText>
+                    @foreach (var network in Data.Stack.Networks)
+                    {
+                        <RowStub/>
+                    }
+                </div>
+
+                <div class="mt-4">
+                    <MudText Typo="Typo.h1">Configs (Coming Soon)</MudText>
+                    <RowStub/>
+                    <RowStub/>
+                    <RowStub/>
+                    <RowStub/>
+                    <RowStub/>
+                    <RowStub/>
+                    <RowStub/>
+                </div>
+
+                <div class="mt-4">
+                    <MudText Typo="Typo.h1">Secrets (Coming Soon)</MudText>
+                    <RowStub/>
+                </div>
+            </div>
+
+            <div style="flex: 0 0 400px;">
+                <p>stub</p>
+            </div>
+        </div>
+    </ChildContent>
+</WindowLayout>
+
+@code {
+    [Inject] public required EditorState Data { get; set; }
+}

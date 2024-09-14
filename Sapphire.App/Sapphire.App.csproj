@@ -73,4 +73,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Sapphire.DockerCompose.Schema\Sapphire.DockerCompose.Schema.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Components\Pages\File\List.razor" />
+    <None Include="Components\Pages\File\List.razor" />
+  </ItemGroup>
 </Project>
