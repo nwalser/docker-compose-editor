@@ -1,4 +1,6 @@
-﻿@using Sapphire.Data.Validation
+﻿@using System.Drawing
+@using System.Reactive.Disposables
+@using Sapphire.Data.Validation
 @inherits ComEditorRefresh
 
 <MudStack Spacing="2">
@@ -61,30 +63,10 @@
                             <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.EnvFile" Variant="Variant.Outlined" Label="Environment File Path" @bind-Value:after="() => State.PushHistory()"/>
                         </MudStack>
                         
-                        <MudStack Row="false">
-                            <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
-                                <MudText Typo="Typo.h2">Environment Variables</MudText>
-                                <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddEnvironmentVariable(service)"/>
-                            </MudStack>
-                            <MudStack Row="false">
-                                @for (var i = 0; i < service.Environment.Count; i++)
-                                {
-                                    var index = i;
-
-                                    <MudStack Row="true">
-                                        <MudTextField Class="mud-input-narrow" @bind-Value="service.Environment[index]" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                        <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteEnvironmentVariable(service, index)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error"/>
-                                    </MudStack>
-                                }
-                                
-                                @if (service.Environment.Count == 0)
-                                {
-                                    <div class="flex flex-row items-center gap-4 outline-[var(--mud-palette-lines-default)] outline-1 rounded-sm p-2 outline-dashed">
-                                        <MudText Typo="Typo.body2" Class="truncate basis-full text-center">No Environment Variables Defined</MudText>
-                                    </div>
-                                }
-                            </MudStack>
-                        </MudStack>
+                        <ComItemList Title="Environment Variables" Items="service.EnvironmentVariables">
+                            <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Key" Variant="Variant.Outlined" Label="Key" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" Label="Value" @bind-Value:after="() => State.PushHistory()"/>
+                        </ComItemList>
                     }
                 </MudStack>
             </MudPaper>
@@ -126,13 +108,13 @@
     
     private void AddEnvironmentVariable(Service service)
     {
-        service.Environment.Add("KEY=VALUE");
+        service.EnvironmentVariables.Add(new EnvironmentVariable());
         State.PushHistory();
     }
     
     private void DeleteEnvironmentVariable(Service service, int index)
     {
-        service.Environment.RemoveAt(index);
+        service.EnvironmentVariables.RemoveAt(index);
         State.PushHistory();
     }
 }

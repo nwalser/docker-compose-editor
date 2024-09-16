@@ -1,0 +1,46 @@
+﻿@inherits ComEditorRefresh
+@typeparam TItem where TItem : new()
+
+<MudStack Row="false">
+    <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
+        <MudText Typo="Typo.h2">@Title</MudText>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddItem()"/>
+    </MudStack>
+    <MudStack Row="false">
+        @foreach (var item in Items)
+        {
+            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                <MudStack Row="true" Class="basis-full">
+                    @ChildContent.Invoke(item)
+                </MudStack>
+                
+                <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => RemoveItem(item)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error"/>
+            </MudStack>
+        }
+        
+        @if (Items.Count == 0)
+        {
+            <div class="flex flex-row items-center gap-4 outline-[var(--mud-palette-lines-default)] outline-1 rounded-sm p-2 outline-dashed">
+                <MudText Typo="Typo.body2" Class="truncate basis-full text-center">Empty</MudText>
+            </div>
+        }
+    </MudStack>
+</MudStack>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public required List<TItem> Items { get; set; }
+    [Parameter] public required RenderFragment<TItem> ChildContent { get; set; }
+
+    private void AddItem()
+    {
+        Items.Add(new TItem());
+        State.PushHistory();
+    }
+
+    private void RemoveItem(TItem item)
+    {
+        Items.Remove(item);
+        State.PushHistory();
+    }
+}

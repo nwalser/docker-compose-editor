@@ -16,7 +16,7 @@ public class Service
     public string EnvFile { get; set; } = string.Empty;
     public string Hostname { get; set; } = string.Empty;
     
-    public List<string> Environment { get; set; } = [];
+    public List<EnvironmentVariable> EnvironmentVariables { get; set; } = [];
     public List<string> Volumes { get; set; } = [];
     public List<string> Ports { get; set; } = [];
     public List<string> Labels { get; set; } = [];
@@ -42,8 +42,8 @@ public class Service
             Hostname = value.Hostname,
             Command = value.Command,
             EnvFile = value.EnvFile,
+            EnvironmentVariables = value.Environment.Select(EnvironmentVariable.FromYaml).ToList(),
             Annotations = value.Annotations,
-            Environment = value.Environment,
             Labels = value.Labels,
             Networks = value.Networks,
             Ports = value.Ports,
@@ -60,8 +60,8 @@ public class Service
             Hostname = Hostname,
             Command = Command,
             EnvFile = EnvFile,
+            Environment = EnvironmentVariables.Select(EnvironmentVariable.ToYaml).ToList(),
             Annotations = Annotations,
-            Environment = Environment,
             Labels = Labels,
             Networks = Networks,
             Ports = Ports,
