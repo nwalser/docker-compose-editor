@@ -2,7 +2,7 @@
 @using EditorState = Sapphire.App.Components.Components.EditorState
 @inherits LayoutComponentBase
 
-<MudDialogProvider/>
+<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.Small"/>
 <MudSnackbarProvider/>
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Theme.Default" DefaultScrollbar="true"/>
 

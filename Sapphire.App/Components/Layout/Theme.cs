@@ -53,7 +53,7 @@ public class Theme
             Default = new Default
             {
                 FontFamily = new[] { "Roboto" },
-                FontWeight = 100,
+                FontWeight = 400,
                 FontSize = "0.875rem"
             },
             H1 = new H1
@@ -63,7 +63,7 @@ public class Theme
             },
             H2 = new H2
             {
-                FontSize = "1rem"
+                FontSize = "0.8rem"
             },
             H3 = new H3
             {

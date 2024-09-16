@@ -1,0 +1,27 @@
+﻿@using Sapphire.Data.Validation
+@using DialogResult = MudBlazor.DialogResult
+
+<MudDialog >
+    <TitleContent>
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudIcon Icon="@Icons.Material.Filled.Error" Size="Size.Small" Color="Color.Error" />
+            <MudText Typo="Typo.h1">Issues</MudText>
+        </MudStack>
+    </TitleContent>
+    <DialogContent>
+        <MudStack Row="false">
+            @foreach (var issue in Issues)
+            {
+                <MudAlert Class="mud-alert-narrow" Variant="Variant.Outlined" Severity="Severity.Error">@issue.Message</MudAlert>
+            }    
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="() => MudDialog.Close(DialogResult.Ok(true))" Size="Size.Small" Variant="Variant.Outlined">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public required IEnumerable<Issue> Issues { get; set; }
+}

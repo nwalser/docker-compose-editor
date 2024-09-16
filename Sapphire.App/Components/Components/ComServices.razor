@@ -6,9 +6,13 @@
         <MudText Typo="Typo.h1">Services</MudText>
 
         <MudStack Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Row="true">
-            @if (State.Stack.Issues().Any(i => i.Type == IssueType.Services))
-            {
-                <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" />
+            @{
+                var issues = State.Stack.Issues().Where(i => i.Type == IssueType.Services).ToList();
+                
+                @if (issues.Any())
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" Variant="Variant.Outlined" OnClick="() => OpenIssueDialog(issues)" />
+                }
             }
             <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddService()"/>
         </MudStack>
@@ -33,10 +37,15 @@
                         <MudText Typo="Typo.body2" Class="truncate basis-100" Style="direction: rtl">@service.Image</MudText>
                         <MudText Typo="Typo.body2" Class="truncate basis-full"></MudText>
                         
-                        @if (service.Issues().Any())
-                        {
-                            <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" />
+                        @{
+                            var issues = service.Issues().ToList();
+                            
+                            @if (issues.Any())
+                            {
+                                <MudIconButton Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" Variant="Variant.Outlined" OnClick="() => OpenIssueDialog(issues)" />
+                            }
                         }
+                        
                         <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteService(service)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
                     </MudStack>
 

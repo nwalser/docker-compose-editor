@@ -75,3 +75,8 @@
 .mud-input-narrow > div > div > input {
     padding: 6px 10px 7px !important;
 }
+
+/* MudAlert */
+.mud-alert-narrow {
+    padding: 0 10px !important;
+}

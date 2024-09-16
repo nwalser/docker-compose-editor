@@ -22,7 +22,16 @@
     </RibbonCenterContent>
     <RibbonRightContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Href="/export/docker-compose">Export</MudButton>
+            @{
+                var issues = State.Stack.Issues().ToList();
+
+                @if (issues.Any())
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" Variant="Variant.Outlined" OnClick="() => OpenIssueDialog(issues)" />
+                }
+                
+                <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Href="/export/docker-compose" Disabled="issues.Any()">Export</MudButton>
+            }
         </MudStack>
     </RibbonRightContent>
     <ChildContent>
