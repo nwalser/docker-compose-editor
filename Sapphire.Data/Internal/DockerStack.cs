@@ -1,4 +1,5 @@
-﻿using Sapphire.Data.Yaml;
+﻿using Sapphire.Data.Validation;
+using Sapphire.Data.Yaml;
 
 namespace Sapphire.Data.Internal;
 
@@ -34,5 +35,14 @@ public class DockerStack
             Name = Name,
             Services = Services.Select(s => s.ToYaml()).ToDictionary()
         };
+    }
+
+    public IEnumerable<Issue> Issues()
+    {
+        foreach (var issue in Services.SelectMany(s => s.Issues()))
+            yield return issue;
+        
+        foreach (var services in Services.GroupBy(s => s.Id).Where(g => g.Count() > 1)) 
+            yield return new Issue(IssueType.Services, $"Service Ids must be unique ({services.First().Id})");
     }
 }

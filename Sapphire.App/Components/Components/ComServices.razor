@@ -1,11 +1,16 @@
-﻿@inherits ComEditorRefresh
+﻿@using Sapphire.Data.Validation
+@inherits ComEditorRefresh
 
 <MudStack Spacing="2">
     <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
         <MudText Typo="Typo.h1">Services</MudText>
 
         <MudStack Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Row="true">
-            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddService()" />
+            @if (State.Stack.Issues().Any(i => i.Type == IssueType.Services))
+            {
+                <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" />
+            }
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddService()"/>
         </MudStack>
     </MudStack>
 
@@ -13,7 +18,7 @@
         @foreach (var service in State.Stack.Services)
         {
             <MudPaper Outlined="true" Class="p-2" Elevation="0">
-                <MudStack Spacing="2">
+                <MudStack Spacing="4">
                     <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
                         @if (service.Open)
                         {
@@ -24,19 +29,25 @@
                             <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => ToggleServiceOpen(service)" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
                         }
 
-                        <MudText Typo="Typo.body2" Class="truncate basis-60">@service.Id</MudText>
-                        <MudText Typo="Typo.body2" Class="truncate basis-60">@service.Image</MudText>
-                        <MudText Typo="Typo.body2" Class="truncate basis-full">@service.ContainerName</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-60">@(string.IsNullOrEmpty(service.ContainerName) ? service.Id : service.ContainerName)</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-100" Style="direction: rtl">@service.Image</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-full"></MudText>
+                        
+                        @if (service.Issues().Any())
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" />
+                        }
                         <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteService(service)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
                     </MudStack>
 
                     @if (service.Open)
                     {
                         <MudStack>
-                            <MudTextField ShrinkLabel="true" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()" />
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()" />
                         </MudStack>
                     }
                 </MudStack>

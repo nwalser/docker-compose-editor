@@ -1,19 +1,19 @@
 ﻿@inherits ComEditorRefresh
 @page "/"
 
-<WindowLayout PageTitle="@($"Docker Compose Editor - {State.Stack.Name}")">
+<WindowLayout PageTitle="@($"{State.Stack.Name} - Docker Compose Editor")">
     <ToolbarRightContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center" Class="pr-4">
-            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Undo" OnClick="() => State.Undo()" Class="no-drag" />
-            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Redo" OnClick="() => State.Redo()" Class="no-drag" />
+            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Undo" OnClick="() => State.Undo()" Class="no-drag" Disabled="State.Performed.Count < 2" />
+            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Redo" OnClick="() => State.Redo()" Class="no-drag" Disabled="State.Recalled.Count == 0" />
         </MudStack>
         
         <WindowControls/>
     </ToolbarRightContent>
     <RibbonLeftContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.FileOpen" OnClick="@(() => Navigation.NavigateTo("/import/docker-compose"))">Import from Docker Compose File</MudButton>
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Wallpaper" OnClick="@(() => Navigation.NavigateTo("/import/library"))">Import from Library</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.FileOpen" Href="/import/docker-compose">Import from Docker Compose File</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Wallpaper" Href="/import/library">Import from Library</MudButton>
             <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Terminal" Disabled="true">Import from Command (Coming Soon)</MudButton>
         </MudStack>
     </RibbonLeftContent>
@@ -22,7 +22,7 @@
     </RibbonCenterContent>
     <RibbonRightContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport">Export</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Href="/export/docker-compose">Export</MudButton>
         </MudStack>
     </RibbonRightContent>
     <ChildContent>

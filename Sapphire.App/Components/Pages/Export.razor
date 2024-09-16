@@ -1,29 +1,26 @@
 ﻿@inherits ComEditorRefresh
-@page "/import/docker-compose"
+@page "/export/docker-compose"
 
-<WindowLayout PageTitle="@($"{State.Stack.Name} - Import from Docker Compose")">
+<WindowLayout PageTitle="@($"{State.Stack.Name} - Export to Docker Compose")">
     <ToolbarRightContent>
         <WindowControls/>
     </ToolbarRightContent>
     <RibbonLeftContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => Navigation.NavigateTo("/"))">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@(() => Navigation.NavigateTo("/"))">Back</MudButton>
         </MudStack>
     </RibbonLeftContent>
-    <RibbonCenterContent>
-
-    </RibbonCenterContent>
     <RibbonRightContent>
-        <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Disabled="Error is not null || YamlDockerStack is null" OnClick="Import">Import</MudButton>
-        </MudStack>
+        @if (Error is not null)
+        {
+            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Medium" Color="Color.Error" Icon="@Icons.Material.Filled.Error">@Error</MudChip>
+        }
     </RibbonRightContent>
     <ChildContent>
         <MudContainer MaxWidth="MaxWidth.Medium" Class="h-full">
             <MudStack>
                 <MudTextField T="string" @bind-Value="Yaml" ShrinkLabel="true" Label="Docker Compose File"
-                              @bind-Value:after="Convert" Variant="Variant.Outlined" Class="h-full"  Lines="18" Immediate="true"
-                              Error="Error is not null" ErrorText="@Error" />
+                              Variant="Variant.Outlined" Class="h-full" Lines="18" Immediate="true" ReadOnly="true" />
 
                 <MudStack Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Row="true">
                     <MudChip T="string" Size="Size.Medium" Variant="Variant.Outlined">@(YamlDockerStack?.Services?.Count ?? 0) Services</MudChip>
@@ -38,33 +35,30 @@
 @code {
     [Inject] public required NavigationManager Navigation { get; set; }
 
-    private string Yaml { get; set; } = string.Empty;
+    private string? Yaml { get; set; } = string.Empty;
     private YamlDockerStack? YamlDockerStack { get; set; }
     private string? Error { get; set; }
-    
-    private void Convert()
+
+    protected override Task OnParametersSetAsync()
+    {
+        ExportData();
+        
+        return base.OnParametersSetAsync();
+    }
+
+    private void ExportData()
     {
         try
         {
-            YamlDockerStack = YamlDockerStack.FromYaml(Yaml);
+            YamlDockerStack = State.Stack.ToYaml();
+            Yaml = YamlDockerStack.ToYaml();
             Error = null;
         }
         catch(Exception ex)
         {
             YamlDockerStack = null;
+            Yaml = null;
             Error = ex.Message;
         }
-    }
-
-    private void Import()
-    {
-        if (YamlDockerStack is null)
-            return;
-
-        var stackToMerge = DockerStack.FromYaml(YamlDockerStack);
-        State.Stack.Merge(stackToMerge);
-        State.PushHistory();
-        
-        Navigation.NavigateTo("/");
     }
 }

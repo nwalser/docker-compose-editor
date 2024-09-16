@@ -1,4 +1,5 @@
-﻿using Sapphire.Data.Yaml;
+﻿using Sapphire.Data.Validation;
+using Sapphire.Data.Yaml;
 
 namespace Sapphire.Data.Internal;
 
@@ -63,5 +64,11 @@ public class Service
         };
 
         return new KeyValuePair<string, YamlService>(Id, service);
+    }
+    
+    public IEnumerable<Issue> Issues()
+    {
+        if (string.IsNullOrWhiteSpace(Id))
+            yield return new Issue(IssueType.Service, "Id must not be empty");
     }
 }
