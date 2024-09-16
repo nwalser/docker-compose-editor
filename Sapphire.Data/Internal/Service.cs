@@ -24,6 +24,11 @@ public class Service
     public List<string> Networks { get; set; } = [];
 
 
+    public string GetDisplayName()
+    {
+        return string.IsNullOrEmpty(ContainerName) ? Id : ContainerName;
+    }
+    
     public static Service FromYaml(KeyValuePair<string, YamlService> entry)
     {
         var value = entry.Value;

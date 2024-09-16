@@ -76,7 +76,12 @@
     padding: 6px 10px 7px !important;
 }
 
+.mud-input-narrow > div > label {
+    transform: translate(6px, -8px) scale(0.65) !important;
+}
+
 /* MudAlert */
 .mud-alert-narrow {
     padding: 0 10px !important;
 }
+

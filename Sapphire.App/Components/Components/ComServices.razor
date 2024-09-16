@@ -18,11 +18,11 @@
         </MudStack>
     </MudStack>
 
-    <MudStack Row="false" Spacing="1">
+    <MudStack Row="false" Spacing="4">
         @foreach (var service in State.Stack.Services)
         {
             <MudPaper Outlined="true" Class="p-2" Elevation="0">
-                <MudStack Spacing="4">
+                <MudStack Spacing="6">
                     <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
                         @if (service.Open)
                         {
@@ -33,8 +33,8 @@
                             <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => ToggleServiceOpen(service)" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
                         }
 
-                        <MudText Typo="Typo.body2" Class="truncate basis-60">@(string.IsNullOrEmpty(service.ContainerName) ? service.Id : service.ContainerName)</MudText>
-                        <MudText Typo="Typo.body2" Class="truncate basis-100" Style="direction: rtl">@service.Image</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-60">@service.GetDisplayName()</MudText>
+                        <MudText Typo="Typo.body2" Class="truncate basis-96" Style="direction: rtl">@service.Image</MudText>
                         <MudText Typo="Typo.body2" Class="truncate basis-full"></MudText>
                         
                         @{
@@ -52,11 +52,38 @@
                     @if (service.Open)
                     {
                         <MudStack>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()" />
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()" />
+                            <MudText Typo="Typo.h2" Class="mb-2">General</MudText>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image:Tag" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.EnvFile" Variant="Variant.Outlined" Label="Environment File Path" @bind-Value:after="() => State.PushHistory()"/>
+                        </MudStack>
+                        
+                        <MudStack Row="false">
+                            <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
+                                <MudText Typo="Typo.h2">Environment Variables</MudText>
+                                <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddEnvironmentVariable(service)"/>
+                            </MudStack>
+                            <MudStack Row="false">
+                                @for (var i = 0; i < service.Environment.Count; i++)
+                                {
+                                    var index = i;
+
+                                    <MudStack Row="true">
+                                        <MudTextField Class="mud-input-narrow" @bind-Value="service.Environment[index]" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
+                                        <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteEnvironmentVariable(service, index)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error"/>
+                                    </MudStack>
+                                }
+                                
+                                @if (service.Environment.Count == 0)
+                                {
+                                    <div class="flex flex-row items-center gap-4 outline-[var(--mud-palette-lines-default)] outline-1 rounded-sm p-2 outline-dashed">
+                                        <MudText Typo="Typo.body2" Class="truncate basis-full text-center">No Environment Variables Defined</MudText>
+                                    </div>
+                                }
+                            </MudStack>
                         </MudStack>
                     }
                 </MudStack>
@@ -94,6 +121,18 @@
             Id = "jolly_beans"
         });
 
+        State.PushHistory();
+    }
+    
+    private void AddEnvironmentVariable(Service service)
+    {
+        service.Environment.Add("KEY=VALUE");
+        State.PushHistory();
+    }
+    
+    private void DeleteEnvironmentVariable(Service service, int index)
+    {
+        service.Environment.RemoveAt(index);
         State.PushHistory();
     }
 }
