@@ -19,18 +19,16 @@ public static class MockData
             {
                 Id = "minio",
                 ContainerName = "minio",
-                Image = "github_container_registry.com/nathaniel-walser/minio:14.9.1",
+                Image = "bitnami/minio",
                 Command = "run minio -c -p 9001",
                 EnvironmentVariables = [
-                    new EnvironmentVariable()
+                    new ServiceEnvironmentVariable()
                     {
-                       Key = "port",
-                       Value = "9001"
+                       Value = "port=9001"
                     },
-                    new EnvironmentVariable()
+                    new ServiceEnvironmentVariable()
                     {
-                       Key = "admin",
-                       Value = "admin"
+                       Value = "admin=admin"
                     },
                 ]
             },

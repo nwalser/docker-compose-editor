@@ -20,7 +20,7 @@
         </MudStack>
     </MudStack>
 
-    <MudStack Row="false" Spacing="4">
+    <MudStack Row="false" Spacing="3">
         @foreach (var service in State.Stack.Services)
         {
             <MudPaper Outlined="true" Class="p-2" Elevation="0">
@@ -48,24 +48,48 @@
                             }
                         }
                         
-                        <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteService(service)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                        <MudIconButton Variant="Variant.Outlined" Size="Size.Small" OnClick="() => DeleteService(service)" Icon="@Icons.Material.Filled.Delete" />
                     </MudStack>
 
                     @if (service.Open)
                     {
                         <MudStack>
                             <MudText Typo="Typo.h2" Class="mb-2">General</MudText>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image:Tag" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.EnvFile" Variant="Variant.Outlined" Label="Environment File Path" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow basis-full" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
+
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
+
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image:Tag" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.Link" Size="Size.Small" Variant="Variant.Outlined" Href="@($"https://hub.docker.com/search?q={service.Image}")" Target="_blank"></MudIconButton>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
+
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
+
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
+
+                            <MudStack Row="true" Spacing="1">
+                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.EnvFile" Variant="Variant.Outlined" Label="Environment File Path" @bind-Value:after="() => State.PushHistory()"/>
+                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                            </MudStack>
                         </MudStack>
                         
                         <ComItemList Title="Environment Variables" Items="service.EnvironmentVariables">
-                            <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Key" Variant="Variant.Outlined" Label="Key" @bind-Value:after="() => State.PushHistory()"/>
-                            <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" Label="Value" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
+                            <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
                         </ComItemList>
                     }
                 </MudStack>
@@ -108,7 +132,7 @@
     
     private void AddEnvironmentVariable(Service service)
     {
-        service.EnvironmentVariables.Add(new EnvironmentVariable());
+        service.EnvironmentVariables.Add(new ServiceEnvironmentVariable());
         State.PushHistory();
     }
     

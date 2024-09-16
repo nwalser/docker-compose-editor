@@ -9,8 +9,8 @@
     <MudStack Row="false">
         @foreach (var item in Items)
         {
-            <MudStack Row="true" Justify="Justify.SpaceBetween">
-                <MudStack Row="true" Class="basis-full">
+            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Spacing="1">
+                <MudStack Row="true" Class="basis-full" AlignItems="AlignItems.Center" Spacing="1">
                     @ChildContent.Invoke(item)
                 </MudStack>
                 
