@@ -46,7 +46,7 @@ if (!webRuntime)
         Title = "Sapphire",
         MinHeight = 600,
         MinWidth = 1000,
-        Frame = false
+        Frame = false,
     };
     var window = await Electron.WindowManager.CreateWindowAsync(options);
     await window.WebContents.Session.ClearCacheAsync();

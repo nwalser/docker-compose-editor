@@ -1,17 +1,17 @@
 ﻿namespace Sapphire.Data.Internal;
 
-public class ServicePort
+public class ServiceAnnotation
 {
     public string Value { get; set; } = string.Empty;
     
-    public static string ToYaml(ServicePort variable)
+    public static string ToYaml(ServiceAnnotation variable)
     {
         return $"{variable.Value}";
     }
 
-    public static ServicePort FromYaml(string value)
+    public static ServiceAnnotation FromYaml(string value)
     {
-        return new ServicePort()
+        return new ServiceAnnotation()
         {
             Value = value
         };

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sapphire.Data.Validation;
 
@@ -22,7 +23,7 @@ public class ComEditorRefresh : ComponentBase
         base.OnAfterRender(firstRender);
     }
 
-    public async Task OpenIssueDialog(IEnumerable<Issue> issues)
+    protected async Task OpenIssueDialog(IEnumerable<Issue> issues)
     {
         var options = new DialogOptions { CloseOnEscapeKey = true };
         var parameter = new DialogParameters()
@@ -31,5 +32,10 @@ public class ComEditorRefresh : ComponentBase
         };
         
         await Dialog.ShowAsync<ComIssuesDialog>("", parameter, options);
+    }
+
+    protected void OpenLink(string link)
+    {
+        Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
     }
 }

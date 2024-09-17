@@ -1,17 +1,17 @@
 ﻿namespace Sapphire.Data.Internal;
 
-public class ServicePort
+public class ServiceNetwork
 {
     public string Value { get; set; } = string.Empty;
     
-    public static string ToYaml(ServicePort variable)
+    public static string ToYaml(ServiceNetwork variable)
     {
         return $"{variable.Value}";
     }
 
-    public static ServicePort FromYaml(string value)
+    public static ServiceNetwork FromYaml(string value)
     {
-        return new ServicePort()
+        return new ServiceNetwork()
         {
             Value = value
         };

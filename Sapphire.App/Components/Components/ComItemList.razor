@@ -1,7 +1,7 @@
 ﻿@inherits ComEditorRefresh
 @typeparam TItem where TItem : new()
 
-<MudStack Row="false">
+<MudStack Row="false" Class="basis-full">
     <MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
         <MudText Typo="Typo.h2">@Title</MudText>
         <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Small" OnClick="() => AddItem()"/>

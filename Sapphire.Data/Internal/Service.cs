@@ -17,11 +17,11 @@ public class Service
     public string Hostname { get; set; } = string.Empty;
     
     public List<ServiceEnvironmentVariable> EnvironmentVariables { get; set; } = [];
-    public List<string> Volumes { get; set; } = [];
-    public List<string> Ports { get; set; } = [];
-    public List<string> Labels { get; set; } = [];
-    public List<string> Annotations { get; set; } = [];
-    public List<string> Networks { get; set; } = [];
+    public List<ServiceVolume> Volumes { get; set; } = [];
+    public List<ServicePort> Ports { get; set; } = [];
+    public List<ServiceLabel> Labels { get; set; } = [];
+    public List<ServiceAnnotation> Annotations { get; set; } = [];
+    public List<ServiceNetwork> Networks { get; set; } = [];
 
 
     public string GetDisplayName()
@@ -43,11 +43,11 @@ public class Service
             Command = value.Command,
             EnvFile = value.EnvFile,
             EnvironmentVariables = value.Environment.Select(ServiceEnvironmentVariable.FromYaml).ToList(),
-            Annotations = value.Annotations,
-            Labels = value.Labels,
-            Networks = value.Networks,
-            Ports = value.Ports,
-            Volumes = value.Volumes,
+            Annotations = value.Annotations.Select(ServiceAnnotation.FromYaml).ToList(),
+            Labels = value.Labels.Select(ServiceLabel.FromYaml).ToList(),
+            Ports = value.Ports.Select(ServicePort.FromYaml).ToList(),
+            Networks = value.Ports.Select(ServiceNetwork.FromYaml).ToList(),
+            Volumes = value.Volumes.Select(ServiceVolume.FromYaml).ToList(),
         };
     }
 
@@ -61,11 +61,11 @@ public class Service
             Command = Command,
             EnvFile = EnvFile,
             Environment = EnvironmentVariables.Select(ServiceEnvironmentVariable.ToYaml).ToList(),
-            Annotations = Annotations,
-            Labels = Labels,
-            Networks = Networks,
-            Ports = Ports,
-            Volumes = Volumes,
+            Annotations = Annotations.Select(ServiceAnnotation.ToYaml).ToList(),
+            Labels = Labels.Select(ServiceLabel.ToYaml).ToList(),
+            Ports = Ports.Select(ServicePort.ToYaml).ToList(),
+            Networks = Networks.Select(ServiceNetwork.ToYaml).ToList(),
+            Volumes = Volumes.Select(ServiceVolume.ToYaml).ToList(),
         };
 
         return new KeyValuePair<string, YamlService>(Id, service);
@@ -75,5 +75,8 @@ public class Service
     {
         if (string.IsNullOrWhiteSpace(Id))
             yield return new Issue(IssueType.Service, "Id must not be empty");
+        
+        if (string.IsNullOrWhiteSpace(Image))
+            yield return new Issue(IssueType.Service, "Image must not be empty");
     }
 }

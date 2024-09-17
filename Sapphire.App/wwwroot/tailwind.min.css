@@ -668,12 +668,12 @@ video {
   flex-basis: 15rem;
 }
 
-.basis-full {
-  flex-basis: 100%;
-}
-
 .basis-96 {
   flex-basis: 24rem;
+}
+
+.basis-full {
+  flex-basis: 100%;
 }
 
 .transform {
