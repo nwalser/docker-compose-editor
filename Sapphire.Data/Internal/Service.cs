@@ -13,8 +13,8 @@ public class Service
     public string ContainerName { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public string Command { get; set; } = string.Empty;
-    public string EnvFile { get; set; } = string.Empty;
     public string Hostname { get; set; } = string.Empty;
+    public string Restart { get; set; } = string.Empty;
     
     public List<ServiceEnvironmentVariable> EnvironmentVariables { get; set; } = [];
     public List<ServiceVolume> Volumes { get; set; } = [];
@@ -41,7 +41,7 @@ public class Service
             Image = value.Image,
             Hostname = value.Hostname,
             Command = value.Command,
-            EnvFile = value.EnvFile,
+            Restart = value.Restart,
             EnvironmentVariables = value.Environment.Select(ServiceEnvironmentVariable.FromYaml).ToList(),
             Annotations = value.Annotations.Select(ServiceAnnotation.FromYaml).ToList(),
             Labels = value.Labels.Select(ServiceLabel.FromYaml).ToList(),
@@ -59,7 +59,7 @@ public class Service
             Image = Image,
             Hostname = Hostname,
             Command = Command,
-            EnvFile = EnvFile,
+            Restart = Restart,
             Environment = EnvironmentVariables.Select(ServiceEnvironmentVariable.ToYaml).ToList(),
             Annotations = Annotations.Select(ServiceAnnotation.ToYaml).ToList(),
             Labels = Labels.Select(ServiceLabel.ToYaml).ToList(),

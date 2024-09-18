@@ -1,6 +1,7 @@
 ﻿@using System.Diagnostics
 @using System.Drawing
 @using System.Reactive.Disposables
+@using System.Reactive.Joins
 @using Sapphire.Data.Validation
 @inherits ComEditorRefresh
 
@@ -56,71 +57,75 @@
                     {
                         <MudStack>
                             <MudText Typo="Typo.h2" Class="mb-2">General</MudText>
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow basis-full" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
-                            </MudStack>
+                            <MudStack Row="true" Spacing="6">
+                                <MudStack Class="basis-full">
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow basis-full" @bind-Value="service.Id" Variant="Variant.Outlined" Label="Id" @bind-Value:after="() => State.PushHistory()"/>
+                                    </MudStack>
 
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
-                            </MudStack>
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.ContainerName" Variant="Variant.Outlined" Label="Name" @bind-Value:after="() => State.PushHistory()"/>
+                                        <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#container_name" />
+                                    </MudStack>
 
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.Link" Size="Size.Small" Variant="Variant.Outlined" OnClick="@(() => OpenLink($"https://hub.docker.com/search?q={service.Image}"))"></MudIconButton>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
-                            </MudStack>
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Image" Variant="Variant.Outlined" Label="Image" @bind-Value:after="() => State.PushHistory()"/>
+                                        <MudIconButton Icon="@Icons.Material.Filled.Link" Size="Size.Small" Variant="Variant.Outlined" OnClick="@(() => OpenLink($"https://hub.docker.com/search?q={service.Image}"))" />
+                                        <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#image" />
+                                    </MudStack>
+                                </MudStack>
+                                <MudStack Class="basis-full">
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Restart" Variant="Variant.Outlined" Label="Restart" @bind-Value:after="() => State.PushHistory()"/>
+                                        <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#restart" />
+                                    </MudStack>
+                                    
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()"/>
+                                        <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#hostname"/>
+                                    </MudStack>
 
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Hostname" Variant="Variant.Outlined" Label="Hostname" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
-                            </MudStack>
-
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
-                            </MudStack>
-
-                            <MudStack Row="true" Spacing="1">
-                                <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.EnvFile" Variant="Variant.Outlined" Label="Environment File Path" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                    <MudStack Row="true" Spacing="1">
+                                        <MudTextField ShrinkLabel="true" Class="mud-input-narrow" @bind-Value="service.Command" Variant="Variant.Outlined" Label="Command" @bind-Value:after="() => State.PushHistory()"/>
+                                        <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#command"/>
+                                    </MudStack>
+                                </MudStack>
                             </MudStack>
                         </MudStack>
                         
                         <MudStack Row="true" Spacing="6">
                             <ComItemList Title="Environment Variables" Items="service.EnvironmentVariables">
                                 <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#environment"/>
                             </ComItemList>
 
                             <ComItemList Title="Ports" Items="service.Ports">
                                 <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#ports"/>
                             </ComItemList>
                         </MudStack>
                         
                         <MudStack Row="true" Spacing="6">
                             <ComItemList Title="Networks" Items="service.Networks">
                                 <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#networks"/>
                             </ComItemList>
 
                             <ComItemList Title="Volumes" Items="service.Volumes">
-                                <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()" />
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#short-syntax-5"/>
                             </ComItemList>
                         </MudStack>
                         
                         <MudStack Row="true" Spacing="6">
                             <ComItemList Title="Annotations" Items="service.Annotations">
                                 <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#annotations"/>
                             </ComItemList>
 
                             <ComItemList Title="Labels" Items="service.Labels">
                                 <MudTextField Class="mud-input-narrow basis-full" @bind-Value="@context.Value" Variant="Variant.Outlined" @bind-Value:after="() => State.PushHistory()"/>
-                                <MudIconButton Icon="@Icons.Material.Filled.QuestionMark" Size="Size.Small" Variant="Variant.Outlined"></MudIconButton>
+                                <ComHelpButton Href="https://docs.docker.com/reference/compose-file/services/#labels"/>
                             </ComItemList>
                         </MudStack>
                     }

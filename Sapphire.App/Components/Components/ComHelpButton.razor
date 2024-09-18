@@ -1,0 +1,7 @@
+﻿@inherits ComEditorRefresh
+
+<MudIconButton Icon="@Icons.Material.Filled.Help" Size="Size.Small" Variant="Variant.Outlined" OnClick="@(() => OpenLink(Href))" />
+
+@code {
+    [Parameter] public required string Href { get; set; }
+}

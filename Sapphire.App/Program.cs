@@ -44,8 +44,8 @@ if (!webRuntime)
     var options = new BrowserWindowOptions()
     {
         Title = "Sapphire",
-        MinHeight = 600,
-        MinWidth = 1000,
+        MinHeight = 800,
+        MinWidth = 1200,
         Frame = false,
     };
     var window = await Electron.WindowManager.CreateWindowAsync(options);
