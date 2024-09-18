@@ -15,6 +15,7 @@
     </RibbonCenterContent>
     <RibbonRightContent>
         <MudStack Spacing="1" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudChip T="string" Color="Color.Warning" Icon="@Icons.Material.Filled.Warning" Variant="Variant.Outlined" Size="Size.Medium">Import in Beta</MudChip>
             <MudButton Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.ImportExport" Disabled="Error is not null || YamlDockerStack is null" OnClick="Import">Import</MudButton>
         </MudStack>
     </RibbonRightContent>

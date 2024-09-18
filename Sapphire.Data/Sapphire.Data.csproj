@@ -10,8 +10,4 @@
       <PackageReference Include="YamlDotNet" Version="16.1.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Library\" />
-    </ItemGroup>
-
 </Project>
